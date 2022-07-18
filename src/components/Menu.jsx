@@ -21,9 +21,9 @@ import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightne
 
 const Container = styled.div`
   flex: 1;
-  background-color: #202020;
+  background-color: ${({ theme }) => theme.bgLighter};
   height: 100vh;
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   position: sticky;
   top: 0;
@@ -38,6 +38,7 @@ const Logo = styled.div`
   font-weight: bold;
   margin-bottom: 25px;
 `;
+
 const Img = styled.img`
   height: 25px;
 `;
@@ -47,11 +48,15 @@ const Item = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
-  padding: 7.5px 0px;
+  padding: 2.2px 0px;
+  &:hover {
+    background-color: ${({ theme }) => theme.soft};
+  }
 `;
+
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.5px solid #373737;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Login = styled.div``;
@@ -60,16 +65,23 @@ const Button = styled.button`
   background-color: transparent;
   border: 1px solid #3ea6ff;
   color: #3ea6ff;
-  border-raduis: 3px;
+  border-radius: 3px;
   font-weight: 500;
-  cursor: pointer;
   margin-top: 10px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
 `;
 
-const Menu = () => {
+const Title = styled.h2`
+  font-size: 14px;
+  font-weight: 500;
+  color: #aaaaaa;
+  margin-bottom: 20px;
+`;
+
+const Menu = ({ darkMode, setDarkMode }) => {
   return (
     <Container>
       <Wrapper>
@@ -101,15 +113,15 @@ const Menu = () => {
         <Hr />
         <Login>
           Sign in to like videos, comment, and subscribe.
-          {/* <Link to="signin" style={{ textDecoration: 'none' }}>
-            <Button>
-              <AccountCircleOutlinedIcon />
-              SIGN IN
-            </Button>
-          </Link> */}
+          {/* <Link to="signin" style={{ textDecoration: 'none' }}> */}
+          <Button>
+            <AccountCircleOutlinedIcon />
+            SIGN IN
+          </Button>
+          {/* </Link>  */}
         </Login>
         <Hr />
-        {/* <Title>BEST OF GEDETUBE</Title> */}
+        <Title>BEST OF GEDETUBE</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music
@@ -147,10 +159,10 @@ const Menu = () => {
           <HelpOutlineOutlinedIcon />
           Help
         </Item>
-        {/* <Item onClick={() => setDarkMode(!darkMode)}>
+        <Item onClick={() => setDarkMode(!darkMode)}>
           <SettingsBrightnessOutlinedIcon />
           {darkMode ? 'Light' : 'Dark'} Mode
-        </Item> */}
+        </Item>
       </Wrapper>
     </Container>
   );

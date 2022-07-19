@@ -35,11 +35,6 @@ const Comments = () => {
       </NewComment>
       <Comment />
       <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
     </Container>
   );
 };

@@ -29,15 +29,17 @@ export const signin = async (req, res, next) => {
     const isCorrect = await bcrypt.compare(req.body.password, user.password);
 
     if (!isCorrect) return next(createError(400, 'Wrong credentials'));
+
     // creating my token
     // take our id from mongo and create Htoken and send it to user after login
     const token = jwt.sign({ id: user._id }, process.env.JWT);
+    const { password, ...others } = user._doc;
     res
       .cookie('access_token', token, {
         httpOnly: true,
       })
       .status(200)
-      .json(user);
+      .json(others);
   } catch (err) {
     next(err);
   }

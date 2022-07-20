@@ -53,6 +53,7 @@ export const getVideo = async (req, res, next) => {
     next(err);
   }
 };
+// Adding view after watching vid
 export const addView = async (req, res, next) => {
   try {
     await Video.findByIdAndUpdate(req.params.id, {
@@ -63,6 +64,7 @@ export const addView = async (req, res, next) => {
     next(err);
   }
 };
+// generate random videos
 export const random = async (req, res, next) => {
   try {
     const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
@@ -71,6 +73,7 @@ export const random = async (req, res, next) => {
     next(err);
   }
 };
+// Trending videos api
 export const trend = async (req, res, next) => {
   try {
     const videos = await Video.find().sort({ views: -1 });
@@ -79,6 +82,7 @@ export const trend = async (req, res, next) => {
     next(err);
   }
 };
+// sub videos
 export const sub = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
@@ -89,7 +93,33 @@ export const sub = async (req, res, next) => {
         return await Video.find({ userId: channelId });
       })
     );
-    res.status(200).json(list);
+    res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
+  } catch (err) {
+    next(err);
+  }
+};
+// search by tags functionality
+export const getByTag = async (req, res, next) => {
+  // express query
+  const tags = req.query.tags.split(',');
+  console.log(tags);
+  try {
+    const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+// search Api Functionality
+export const search = async (req, res, next) => {
+  // Using queryb to search
+  const query = req.query.q;
+  console.log(query);
+  try {
+    const videos = await Video.find({
+      title: { $regex: query, $options: 'i' },
+    }).limit(40);
+    res.status(200).json(videos);
   } catch (err) {
     next(err);
   }
